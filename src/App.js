@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Connection,clusterApiUrl, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
  
 const App = () => {
     const [walletConnected,setWalletConnected] = useState(false);
@@ -33,6 +34,24 @@ const App = () => {
         }
      }
 
+     const airDropHelper = async () => {
+      try {
+          setLoading(true);
+          const connection = new Connection(
+              clusterApiUrl("devnet"),
+              "confirmed"
+          );
+          const fromAirDropSignature = await connection.requestAirdrop(new PublicKey(provider.publicKey), LAMPORTS_PER_SOL);
+          await connection.confirmTransaction(fromAirDropSignature, { commitment: "confirmed" });
+          
+          console.log(`1 SOL airdropped to your wallet ${provider.publicKey.toString()} successfully`);
+          setLoading(false);
+      } catch(err) {
+          console.log(err);
+          setLoading(false);
+      }
+   }
+
    return (
        <div>
            <h1>Create your own token using JavaScript</h1>
@@ -41,7 +60,12 @@ const App = () => {
                 <p><strong>Public Key:</strong> {provider.publicKey.toString()}</p>                   
                 ):<p></p>
             }
-        
+            {
+               walletConnected ? (
+                  <p>Airdrop 1 SOL into your wallet 
+                  <button disabled={loading} onClick={airDropHelper}>AirDrop SOL </button>
+                  </p>):<></>
+            }
             <button onClick={walletConnectionHelper} disabled={loading}>
                 {!walletConnected?"Connect Wallet":"Disconnect Wallet"}
             </button> 
