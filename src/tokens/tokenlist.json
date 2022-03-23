@@ -1,0 +1,14 @@
+{
+    "chainId":101,
+    "address":"8sNSuXLyhkEFJ2pP4o4oRt8wJ9cbm7W9H7KKv54KKPBr",
+    "symbol":"^^",
+    "name":"The Fun Token",
+    "decimals":"10",
+    "logoURI":"",
+    "tags":[
+       "tags_if_any"
+    ],
+    "extensions":{
+       
+    }
+ }
